@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>动态爱心页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            display: flex ;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: pink;
+        }
+        #button {
+            padding: 10px 20px;
+            font-size: 20px;
+            color: white;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        #heart, #photo1, #photo2 {
+            display: none;
+        }
+        #heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: tomato;
+            animation: heartbeat 1.09s infinite;
+            box-shadow: 10px 10px 50px papayawhip;
+        }
+        #heart:before, #heart:after {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: tomato;
+        }
+        #heart:after {
+            top: 0px;
+            left: 50px;
+        }
+        @keyframes heartbeat {
+            0% {transform: scale(1) rotate(-45deg);}
+            50%{transform: scale(1.4) rotate(-45deg);}
+            100%{transform: scale(1)  rotate(-45deg);}
+        }
+
+#photo1 {
+    width: 150px;
+    animation: slide-in1 6s ;
+    animation-fill-mode: forwards;
+    border-radius: 20px;
+}
+
+#photo2 {
+    width: 150px;
+    animation: slide-in2  6s ;
+    animation-fill-mode: forwards;
+    border-radius: 20px;
+}
+#fireworks-button {
+    width: 150px; /* 按钮宽度 */
+    height: 100px; /* 按钮高度 */
+    background-color: white;
+    border-radius: 80px; /* 按钮圆角 */
+    box-shadow: 5px 5px 10px rgb(214, 214, 23); /* 按钮立体效果 */
+    cursor: pointer; /* 鼠标悬停时显示为手形 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 将按钮定位到页面中央 */
+    z-index: 101; 
+}
+#overlay {
+  transition: opacity 10ms ease; /* 假设过渡时间为1秒 */
+}
+@keyframes slide-in1 {
+    from {
+        transform: translate(-2000px, -50%);
+    }
+    to {
+        transform: translate(-100px,50%); 
+    }
+}
+@keyframes slide-in2 {
+    from {
+        transform: translate(2000px, -50%); 
+    }
+    to {
+        transform: translate(100px,-50%); 
+    }
+}
+    </style>
+</head>
+<body>
+    <button id="button">点击</button>
+    <button id="fireworks-button"> 烟花</button>
+    <audio id="music" src="Haru Haru .m4a" preload="auto" style="display:none;"></audio> 
+    <div id="heart"></div>
+    <img id="photo1" src="2.jpg" alt="Photo 1">
+    <img id="photo2" src="1.jpg" alt="Photo 2">
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: black; z-index: 100;"></div>
+    <script>
+        document.getElementById('button').addEventListener('click', function() {
+            var music = document.getElementById('music');
+            music.play();
+            
+            // 隐藏按钮
+            this.style.display = 'none';
+
+            // 显示爱心和照片，并设置动画
+            var heart = document.getElementById('heart');
+            var photo1 = document.getElementById('photo1');
+            var photo2 = document.getElementById('photo2');
+            heart.style.display = 'block';
+            photo1.style.display = 'block';
+            photo2.style.display = 'block';
+
+            // 重置页面背景色
+            document.body.style.backgroundColor = 'pink';
+        });
+var overlay = document.getElementById('overlay');
+var photo2 = document.getElementById('photo2');
+photo2.addEventListener('animationend', function() {
+    overlay.style.display = 'block';
+    overlay.style.opacity = '0';
+    
+    let opacity = 0;
+    const interval = setInterval(function() {
+        opacity += 0.1; 
+        if (opacity > 1) opacity = 1; 
+        overlay.style.opacity = opacity.toString();
+        if (opacity >= 1) {
+            clearInterval(interval);
+        }
+    }, 100);
+});
+var overlay = document.getElementById('overlay');
+var fireworksButton = document.getElementById('fireworks-button');
+fireworksButton.style.display = 'none'; // 初始时隐藏fireworks-button元素
+overlay.addEventListener('transitionend', function(event) {
+    // 确保是opacity属性的过渡结束
+    if (event.propertyName === 'opacity') {
+        let opacity = 0;
+        const interval = setInterval(function() {
+            opacity += 0.1;
+            if (opacity > 1) opacity = 1; // 确保opacity不会超过1
+            fireworksButton.style.opacity = opacity.toString();
+            if (opacity >= 1) {
+                clearInterval(interval);
+                fireworksButton.style.display = 'block'; 
+            }
+        }, 100);
+    }
+});
+// 首先，我们需要获取到id为"fireworks-button"的元素
+var button = document.getElementById("fireworks-button");
+
+// 然后，我们为这个按钮添加一个点击事件监听器
+button.addEventListener("click", function() {
+    // 当按钮被点击时，使用location.href属性来跳转到"烟花2.html"
+    window.location.href = "烟花1.html";
+});
+    </script>
+</body>
+</html>
